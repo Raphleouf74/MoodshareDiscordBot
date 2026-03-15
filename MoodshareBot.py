@@ -65,7 +65,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "✅ SmartBot API est en ligne. Utilise /status pour vérifier l'état du bot."
+    return "✅ SmartBot API est en ligne. Utilise /status pour vérifier l'état du bot. Bienvenue sur MoodshareBot ⃞⃝!"
 
 @app.route("/status")
 def status():
