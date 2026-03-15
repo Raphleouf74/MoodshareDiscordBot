@@ -27,7 +27,7 @@ if ($pullResult -match "Merge automatique n'a pas abouti") {
 Write-Host "Git Pull les dernieres modifications..."
 git pull origin main
 git add .
-git commit -m "V$newVersion (build $newBuild)" 2>$null
+git commit -m "PUSH bot"
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Rien a commit."
 }
@@ -37,7 +37,6 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 Write-Host "Changements pousses avec succes !."
-
 Write-Host ""
 Write-Host "Operation effectuee avec succes !"
 
