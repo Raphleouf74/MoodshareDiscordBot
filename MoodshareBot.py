@@ -44,7 +44,7 @@ def list_commands():
         "help": "liste toutes les commandes."
     })
 
-DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")  # ton token de bot
+DISCORD_TOKEN = os.getenv("DISCORD_SECRET")  # ton token de bot
 API_KEY = os.getenv("API_KEY")  # clé secrète API
 OWNER_ID = 1067745915915481098
 
