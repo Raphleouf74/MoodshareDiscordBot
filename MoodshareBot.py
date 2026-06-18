@@ -39,9 +39,9 @@ def servers():
 def list_commands():
     check_key()
     return jsonify({
-        "ping": "Affiche le ping du bot",
-        "userinfo": "Montre les infos d’un utilisateur",
-        "help": "Liste toutes les commandes"
+        "ping": "affiche le ping du bot.",
+        "userinfo": "montre les infos d’un utilisateur.",
+        "help": "liste toutes les commandes."
     })
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")  # ton token de bot
@@ -55,7 +55,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "✅ SmartBot API est en ligne. Utilise /status pour vérifier l'état du bot. Bienvenue sur MoodshareBot ⃞⃝!"
+    return "✅ oibot. API en ligne. utilise /status pour vérifier l'état du bot. oibot."
 
 @app.route("/status")
 def status():
@@ -91,15 +91,15 @@ bot = commands.Bot(command_prefix="/", intents=intents)
 bot.remove_command("help")
 warns = {}
 
-@bot.tree.command(name="help", description="📖 Affiche le menu d'aide")
+@bot.tree.command(name="help", description="📖 affiche le menu d'aide")
 async def help(interaction: discord.Interaction):
     embed = discord.Embed(
-        title="📖 Menu d'aide",
-        description="Voici la liste des commandes disponibles :",
+        title="📖 menu d'aide.",
+        description="voici la liste des commandes disponibles :",
         color=discord.Color.blue()
     )
-    embed.add_field(name="/commandes", value="Montre la liste des commandes", inline=False)
-    embed.add_field(name=" Plus de commandes d'aides ultérieurement", value="", inline=False)
+    embed.add_field(name="/commandes", value="montre la liste des commandes", inline=False)
+    embed.add_field(name=" plus de commandes d'aides arrivent ultérieurement", value="", inline=False)
 
     await interaction.response.send_message(embed=embed)
     
@@ -108,40 +108,30 @@ pages = []
 
 # Page 1 : Commandes staff
 embed1 = discord.Embed(
-    title="💻 Menu des commandes (Page 1/3)",
-    description="Commandes réservées au staff 🛠️:",
+    title="💻 menu des commandes page 1/2",
+    description="commandes réservées au staff 🛠️:",
     color=discord.Color.green()
 )
-embed1.add_field(name="/delete [nombre de messages]", value="Supprime le nombre de messages donné", inline=False)
-embed1.add_field(name="/ban [user]", value="Bannir un membre, il ne pourra pas revenir dans le serveur.", inline=False)
-embed1.add_field(name="/kick [user]", value="Expulser un membre, mais il peut revenir dans le serveur", inline=False)
-embed1.add_field(name="/mute [user] [duration]", value="Mettre un membre en sourdine pendant un temps donné", inline=False)
-embed1.add_field(name="/unmute [user]", value="Retirer l'action mute d'un membre", inline=False)
-embed1.add_field(name="/timeout [user] [duration]", value="Mettre un membre en timeout pendant une durée", inline=False)
-embed1.add_field(name="/untimeout [user]", value="Permet à un membre de parler après un timeout", inline=False)
-embed1.add_field(name="/warn", value="Avertis un membre d'un comportement inapproprié", inline=False)
-embed1.add_field(name="/poll", value="Crée un sondage pour le serveur", inline=False)
+embed1.add_field(name="/delete [nombre de messages]", value="supprime le nombre de messages donné", inline=False)
+embed1.add_field(name="/ban [user]", value="bannir un membre, et ne pourra pas revenir dans le serveur.", inline=False)
+embed1.add_field(name="/kick [user]", value="expulse un membre, mais peut revenir dans le serveur", inline=False)
+embed1.add_field(name="/mute [user] [duration]", value="mettre un membre en sourdine pendant un temps donné", inline=False)
+embed1.add_field(name="/unmute [user]", value="retirer le mute d'un membre", inline=False)
+embed1.add_field(name="/timeout [user] [duration]", value="mettre un membre en timeout pendant une durée", inline=False)
+embed1.add_field(name="/untimeout [user]", value="permet à un membre de parler après un timeout", inline=False)
+embed1.add_field(name="/warn", value="avertis un membre d'un comportement inapproprié", inline=False)
+embed1.add_field(name="/poll", value="crée un sondage pour le serveur", inline=False)
 pages.append(embed1)
 
-# Page 2 : Commandes administrateur
-embed2 = discord.Embed(
-    title="💻 Menu des commandes (Page 2/3)",
-    description="Commandes réservées à l'administrateur du serveur 💻",
-    color=discord.Color.green()
-)
-embed2.add_field(name="/shutdown", value="Éteins le bot", inline=False)
-embed2.add_field(name="/ping", value="Annonce le ping du bot", inline=False)
-pages.append(embed2)
-
 # Page 3 : Commandes pour tous les membres
-embed3 = discord.Embed(
-    title="💻 Menu des commandes (Page 3/3)",
+embed2 = discord.Embed(
+    title="💻 menu des commandes page 2/2",
     description="Commandes pour tous les membres :",
     color=discord.Color.green()
 )
-embed3.add_field(name="/userinfo [user]", value="Obtenir les infos d'un utilisateur", inline=False)
-embed3.add_field(name="/serverinfo", value="Donne les infos du serveur", inline=False)
-pages.append(embed3)
+embed2.add_field(name="/userinfo [user]", value="obtenir les infos d'un utilisateur", inline=False)
+embed2.add_field(name="/serverinfo", value="donne les infos du serveur", inline=False)
+pages.append(embed2)
 
 # Classe de pagination
 class Paginator(View):
@@ -170,7 +160,7 @@ class Paginator(View):
         await interaction.response.edit_message(embed=self.pages[self.current], view=self)
 
 # Commande pour afficher les embeds paginés
-@bot.tree.command(name="commandes", description="💻 Liste toutes les commandes disponibles")
+@bot.tree.command(name="commandes", description="💻 liste toutes les commandes disponibles")
 async def commandes(interaction: discord.Interaction):
     await interaction.response.send_message(embed=pages[0], view=Paginator(pages))
     
@@ -181,7 +171,7 @@ def is_staff():
     async def predicate(ctx):
         if ctx.author.guild_permissions.administrator:
             return True
-        staff_role = discord.utils.get(ctx.guild.roles, name="[ 🛠️ Staff ] ")
+        staff_role = discord.utils.get(ctx.guild.roles, name="[ staff. ] ")
         if staff_role in ctx.author.roles:
             return True
         return False
@@ -191,7 +181,7 @@ def is_staff():
 def is_staff_interaction(interaction: discord.Interaction) -> bool:
     if interaction.user.guild_permissions.administrator:
         return True
-    staff_role = discord.utils.get(interaction.guild.roles, name="[ 🛠️ Staff ] ")
+    staff_role = discord.utils.get(interaction.guild.roles, name="[ staff. ] ")
     if staff_role in interaction.user.roles:
         return True
     return False
@@ -200,54 +190,54 @@ def is_staff_interaction(interaction: discord.Interaction) -> bool:
 # -------------------------
 # Commande purge
 # -------------------------
-@bot.tree.command(name="delete", description="🧹 Supprime un nombre de messages")
+@bot.tree.command(name="delete", description="supprime un nombre de messages.")
 async def delete(interaction: discord.Interaction, amount: int = 3):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions nécéssaires pour cette commande.", ephemeral=True)
         return
     await interaction.response.defer()
     await interaction.channel.purge(limit=amount + 1)
-    await interaction.followup.send(f"🧹 {amount} message(s) supprimé(s) avec succès !")
+    await interaction.followup.send(f"{amount} message(s) supprimé(s)!")
 
 # -------------------------
 # Commande kick
 # -------------------------
-@bot.tree.command(name="kick", description="👢 Expulse un membre du serveur")
-async def kick(interaction: discord.Interaction, member: discord.Member, reason: str = "Aucune raison fournie"):
+@bot.tree.command(name="kick", description="expulse un membre du serveur.")
+async def kick(interaction: discord.Interaction, member: discord.Member, reason: str = "aucune raison fournie."):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'as pas les permissions requises pour cette commande.", ephemeral=True)
         return
     try:
-        await member.send(f"👢 Vous avez été **expulsé** du serveur **{interaction.guild.name}** car {reason}. Mais revenir dans le serveur est toujours possible !")
+        await member.send(f"aïe, tu a été **expulsé** du serveur **{interaction.guild.name}** car {reason}. mais tu peut toujours revenir **en respectant les règles**!")
     except:
         pass
     await member.kick(reason=reason)
-    await interaction.response.send_message(f"👢 {member.mention} a été éxpulsé du serveur car {reason}. Mais ils peuvent tout de même revenir dans le serveur !")
+    await interaction.response.send_message(f"{member.mention} a été éxpulsé du serveur car {reason}. mais il peut tout de même revenir dans le serveur !")
 
 
 # -------------------------
 # Commande ban
 # -------------------------
-@bot.tree.command(name="ban", description="🔨 Bannit un membre du serveur")
-async def ban(interaction: discord.Interaction, member: discord.Member, reason: str = "Aucune raison fournie"):
+@bot.tree.command(name="ban", description="bannit un membre du serveur.")
+async def ban(interaction: discord.Interaction, member: discord.Member, reason: str = "aucune raison fournie."):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     try:
-        await member.send(f"🔨 Vous avez été **banni** du serveur **{interaction.guild.name}** car {reason}")
+        await member.send(f"tu a été **banni** du serveur **{interaction.guild.name}** car {reason}")
     except:
         pass
     await member.ban(reason=reason)
-    await interaction.response.send_message(f"🔨 {member.mention} a été banni du serveur car {reason}")
+    await interaction.response.send_message(f"{member.mention} a été banni du serveur car {reason}")
 
 
 # -------------------------
 # Commande mute
 # -------------------------
-@bot.tree.command(name="mute", description="🔇 Rend un membre muet")
-async def mute(interaction: discord.Interaction, member: discord.Member, reason: str = "Aucune raison fournie"):
+@bot.tree.command(name="mute", description="mute un membre.")
+async def mute(interaction: discord.Interaction, member: discord.Member, reason: str = "aucune raison fournie."):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     role = discord.utils.get(interaction.guild.roles, name="Muted")
     if not role:
@@ -258,40 +248,40 @@ async def mute(interaction: discord.Interaction, member: discord.Member, reason:
     await member.add_roles(role, reason=reason)
 
     try:
-        await member.send(f"🔇 Vous avez été **Mis en silencieux** sur **{interaction.guild.name}** car {reason}")
+        await member.send(f"chut! tu a été **mute** sur **{interaction.guild.name}** car {reason}")
     except:
         pass
 
-    await interaction.response.send_message(f"🔇 {member.mention} a été mis en silencieux car {reason}")
+    await interaction.response.send_message(f"{member.mention} a été mute car {reason}")
 
 
 # -------------------------
 # Commande unmute
 # -------------------------
-@bot.tree.command(name="unmute", description="🔊 Autorise un membre à parler")
+@bot.tree.command(name="unmute", description="autorise un membre à parler.")
 async def unmute(interaction: discord.Interaction, member: discord.Member):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     role = discord.utils.get(interaction.guild.roles, name="Muted")
     if role in member.roles:
         await member.remove_roles(role)
         try:
-            await member.send(f"🔊 Vous pouvez désormais **parler** sur **{interaction.guild.name}**.")
+            await member.send(f"horra! tu peut désormais **parler** sur **{interaction.guild.name}** mais fais tourner sept fois ta langue dans ta bouche avant de parler.")
         except:
             pass
-        await interaction.response.send_message(f"🔊 {member.mention} est désormais autorisé à parler ✅")
+        await interaction.response.send_message(f" {member.mention} est désormais autorisé à parler.")
     else:
-        await interaction.response.send_message("❌ Ce membre n'a pas reçu de sanction concernant le chat.")
+        await interaction.response.send_message("❌ ce membre n'a pas reçu de sanction concernant le chat.")
 
 
-@bot.tree.command(name="shutdown", description="🛑 Eteint le bot (owner only)")
+@bot.tree.command(name="shutdown", description="éteint le bot.")
 async def shutdown(interaction: discord.Interaction):
     if interaction.user.id != OWNER_ID:
-        await interaction.response.send_message("❌ Impossible d'éffectuer cette commande. Vous ne disposez pas des droits pour le faire.", ephemeral=True)
+        await interaction.response.send_message("❌ petit malin tu ne m'éteindra pas comme ça. tu n'a pas le pouvoir. mouahahaha.", ephemeral=True)
         return
 
-    await interaction.response.send_message("🛑 Le bot s'éteint...")
+    await interaction.response.send_message("au revoir monde cruel...")
     await bot.close()
 
 
@@ -303,104 +293,106 @@ class MateView(View):
         super().__init__(timeout=None)
         self.author = author
 
-    @discord.ui.button(label="✅ Oui", style=discord.ButtonStyle.green)
+    @discord.ui.button(label="oui!", style=discord.ButtonStyle.green)
     async def yes_button(self, interaction: discord.Interaction, button: Button):
         if interaction.user == self.author:
-            await interaction.response.send_message("❌ C'est tentant mais tu ne peut pas devenir ton propre mate, c'est dommage !", ephemeral=True)
+            await interaction.response.send_message("❌ c'est tentant mais tu ne peut pas devenir ton propre mate, désolés ＼(ﾟｰﾟ＼)!", ephemeral=True)
             return
         await interaction.response.send_message(
-            f"🎉 {interaction.user.mention} est maintenant le mate de {self.author.mention} ❤️"
+            f"🎉 {interaction.user.mention} est maintenant le mate de {self.author.mention}."
         )
         self.stop()
 
     @discord.ui.button(label="❌ Non", style=discord.ButtonStyle.red)
     async def no_button(self, interaction: discord.Interaction, button: Button):
         if interaction.user == self.author:
-            await interaction.response.send_message("❌ Pourquoi essayer de te refuser ? De toute façon tu ne peut pas !", ephemeral=True)
+            await interaction.response.send_message("❌ pourquoi essayer de te refuser ? de toute façon tu ne peut pas!", ephemeral=True)
             return
         await interaction.response.send_message(
-            f"{interaction.user.mention} a malheureusement refusé d'être le mate de {self.author.mention} 😢"
+            f"{interaction.user.mention} a malheureusement refusé d'être le mate de {self.author.mention}."
         )
         self.stop()
 
 
-@bot.tree.command(name="timeout", description="⏳ Met un membre en timeout")
-async def timeout(interaction: discord.Interaction, member: discord.Member, minutes: int, reason: str = "Aucune raison fournie"):
+@bot.tree.command(name="timeout", description="met un membre en timeout")
+async def timeout(interaction: discord.Interaction, member: discord.Member, minutes: int, reason: str = "aucune raison fournie."):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     duration = timedelta(minutes=minutes)
 
     try:
         await member.timeout(duration, reason=reason)
         await interaction.response.send_message(f"⏳ {member.mention} a été mis en timeout pendant {minutes} minutes car {reason}")
-        await member.send(f"⚠️ Vous avez été timeout de **{interaction.guild.name}**pendant {minutes} minutes car {reason}.")
+        await member.send(f"tu a été timeout de **{interaction.guild.name}** pendant {minutes} minutes car {reason}.")
 
     except Exception as e:
-        await interaction.response.send_message(f"❌ Impossible de mettre {member.mention} en timeout : {e}")
+        await interaction.response.send_message(f"❌ impossible de mettre {member.mention} en timeout : {e}")
         
         
-@bot.tree.command(name="untimeout", description="✅ Retire le timeout d'un membre")
+@bot.tree.command(name="untimeout", description="retire le timeout d'un membre!")
 async def untimeout(interaction: discord.Interaction, member: discord.Member):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     try:
         await member.timeout(None)
-        await interaction.response.send_message(f"✅ {member.mention} n'est plus en timeout.")
-        await member.send(f"⚠️ Vous n'êtes plus timeout de **{interaction.guild.name}**, merci de respecter les règles afin de ne pas être sanctionné dans le futur.")
+        await interaction.response.send_message(f"{member.mention} n'est plus en timeout.")
+        await member.send(f"⚠️ tu n'est plus timeout de **{interaction.guild.name}**, merci de respecter les règles afin de ne pas être sanctionné dans le futur.")
 
     except Exception as e:
-        await interaction.response.send_message(f"❌ Impossible d'enlever le timeout : {e}")
+        await interaction.response.send_message(f"❌ impossible d'enlever le timeout : {e}")
 
-@bot.tree.command(name="warn", description="⚠️ Avertit un membre")
-async def warn(interaction: discord.Interaction, member: discord.Member, reason: str = "Aucune raison fournie"):
+@bot.tree.command(name="warn", description="avertit un membre.")
+async def warn(interaction: discord.Interaction, member: discord.Member, reason: str = "aucune raison fournie."):
     if not is_staff_interaction(interaction):
-        await interaction.response.send_message("❌ Vous n'avez pas les permissions pour cette commande.", ephemeral=True)
+        await interaction.response.send_message("❌ tu n'a pas les permissions pour cette commande.", ephemeral=True)
         return
     user_id = member.id
     warns[user_id] = warns.get(user_id, 0) + 1
 
-    await interaction.response.send_message(f"⚠️ {member.mention} a reçu un avertissement ! (Total: {warns[user_id]})")
+    await interaction.response.send_message(f"{member.mention} a reçu un avertissement ! au total il en a: {warns[user_id]})")
 
     # Sanctions automatiques
     if warns[user_id] == 3:
         await member.timeout(timedelta(minutes=10), reason="3 warns accumulés")
-        await interaction.followup.send(f"⏳ {member.mention} a été mis en timeout 10 minutes (3 warns).")
+        await interaction.followup.send(f"{member.mention} a été mis en timeout 10 minutes (3 warns).")
     elif warns[user_id] == 5:
         await interaction.guild.ban(member, reason="5 warns accumulés")
-        await interaction.followup.send(f"🔨 {member.mention} a été banni (5 warns).")
+        await interaction.followup.send(f"{member.mention} a été banni (5 warns).")
         
-@bot.tree.command(name="ping", description="🏓 Affiche le ping du bot")
+@bot.tree.command(name="ping", description="ping du bot.")
 async def ping(interaction: discord.Interaction):
     latency = round(bot.latency * 1000)
-    await interaction.response.send_message(f"🏓 Ping du bot: {latency}ms")
+    await interaction.response.send_message(f"tic tac {latency}ms")
 
-@bot.tree.command(name="userinfo", description="👤 Affiche les infos d'un utilisateur")
+@bot.tree.command(name="userinfo", description="affiche les infos d'un utilisateur.")
 async def userinfo(interaction: discord.Interaction, member: discord.Member = None):
     member = member or interaction.user
     embed = discord.Embed(title=f"Infos sur {member}", color=discord.Color.green())
-    embed.add_field(name="ID", value=member.id, inline=False)
-    embed.add_field(name="Pseudo", value=member.display_name, inline=False)
-    embed.add_field(name="Compte créé le", value=member.created_at.strftime("%d/%m/%Y"), inline=False)
-    embed.add_field(name="A rejoint le serveur le", value=member.joined_at.strftime("%d/%m/%Y"), inline=False)
-    embed.add_field(name="Rôles", value=", ".join([r.name for r in member.roles if r.name != "@everyone"]), inline=False)
+    embed.add_field(name="id", value=member.id, inline=False)
+    embed.add_field(name="pseudo", value=member.display_name, inline=False)
+    embed.add_field(name="compte créé le", value=member.created_at.strftime("%d/%m/%Y"), inline=False)
+    embed.add_field(name="à rejoint le serveur le", value=member.joined_at.strftime("%d/%m/%Y"), inline=False)
+    embed.add_field(name="rôles", value=", ".join([r.name for r in member.roles if r.name != "@everyone"]), inline=False)
+    embed.add_field(name="compte oifeel.", value="_non implémenté pour le moment_", inline=False)
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="serverinfo", description="📊 Affiche les infos du serveur")
+@bot.tree.command(name="serverinfo", description="affiche les infos du serveur.")
 async def serverinfo(interaction: discord.Interaction):
     guild = interaction.guild
-    embed = discord.Embed(title=f"📊 Infos du serveur : {guild.name}", color=discord.Color.purple())
-    embed.add_field(name="ID", value=guild.id, inline=False)
-    embed.add_field(name="Membres", value=guild.member_count, inline=False)
-    embed.add_field(name="Propriétaire", value=guild.owner, inline=False)
-    embed.add_field(name="Créé le", value=guild.created_at.strftime("%d/%m/%Y"), inline=False)
-    embed.add_field(name="Nombre de rôles", value=len(guild.roles), inline=False)
+    embed = discord.Embed(title=f"infos du serveur : {guild.name}", color=discord.Color.purple())
+    embed.add_field(name="id", value=guild.id, inline=False)
+    embed.add_field(name="membres", value=guild.member_count, inline=False)
+    embed.add_field(name="propriétaire", value=guild.owner, inline=False)
+    embed.add_field(name="créé le", value=guild.created_at.strftime("%d/%m/%Y"), inline=False)
+    embed.add_field(name="nombre de rôles", value=len(guild.roles), inline=False)
+    embed.add_field(name="nombre de bg dans le serveur", value=guild.member_count, inline=False)
     await interaction.response.send_message(embed=embed)
 
-@bot.tree.command(name="poll", description="📊 Crée un sondage")
+@bot.tree.command(name="poll", description="crée un sondage")
 async def poll(interaction: discord.Interaction, question: str):
-    embed = discord.Embed(title="📊 Sondage", description=question, color=discord.Color.gold())
+    embed = discord.Embed(title="sondage", description=question, color=discord.Color.gold())
     poll_message = await interaction.response.send_message(embed=embed)
     await poll_message.add_reaction("✅")
     await poll_message.add_reaction("❌")
@@ -411,14 +403,14 @@ async def on_member_join(member):
     if role:
         await member.add_roles(role)
         try:
-            await member.send(f"👋 Bienvenue sur **{member.guild.name}** ! Tu as reçu automatiquement le rôle **{role.name}**.")
+            await member.send(f"bienvenue sur **{member.guild.name}**! tu as reçu automatiquement le rôle **{role.name}**.")
         except:
             pass
 @bot.event
 async def on_member_join(member):
     channel = discord.utils.get(member.guild.text_channels, name="vérification")
     if channel:
-        msg = await channel.send(f"👋 Bienvenue {member.mention} ! Pour accéder au serveur, clique sur ✅.")
+        msg = await channel.send(f"👋 bienvenue {member.mention}! pour accéder au serveur, clique sur ✅.")
         await msg.add_reaction("✅")
 
         def check(reaction, user):
@@ -431,7 +423,7 @@ async def on_member_join(member):
                 await member.add_roles(role)
                 await channel.send(f"✅ {member.mention} a passé la vérification !")
         except:
-            await member.kick(reason="Échec de la vérification captcha")
+            await member.kick(reason="échec de la vérification captcha")
 async def send_log(guild, message):
     log_channel = discord.utils.get(guild.text_channels, name="logs")
     if log_channel:
@@ -439,16 +431,16 @@ async def send_log(guild, message):
 
 @bot.event
 async def on_member_ban(guild, user):
-    await send_log(guild, f"🔨 {user} a été banni.")
+    await send_log(guild, f"{user} a été banni.")
 
 @bot.event
 async def on_member_remove(member):
-    await send_log(member.guild, f"👢 {member} a quitté ou a été expulsé.")
+    await send_log(member.guild, f"{member} a quitté ou a été expulsé du serveur.")
 
 @bot.event
 async def on_message_delete(message):
     if not message.author.bot:
-        await send_log(message.guild, f"🗑️ Message supprimé de {message.author}: {message.content}")
+        await send_log(message.guild, f"message supprimé de {message.author}: {message.content}")
 
 
 # ------------------------- 
@@ -457,14 +449,14 @@ async def on_message_delete(message):
 @bot.event 
 async def on_ready(): 
     latency = round(bot.latency * 1000) 
-    print(f"✅ Bot connecté. ID: {bot.user}") 
-    print(f" Ping: {latency}ms") 
-    print(f"Bienvenue sur MoodshareBot ⃞⃝!")
+    print(f"oibot. connecté. id: {bot.user}") 
+    print(f"ping: {latency}ms") 
+    print(f"oibot.")
     try:
         synced = await bot.tree.sync()
-        print(f"✅ {len(synced)} commandes slash synchronisées !")
+        print(f"{len(synced)} commandes synchronisées !")
     except Exception as e:
-        print(f"❌ Erreur lors de la synchronisation des commandes : {e}")
+        print(f"❌ erreur lors de la synchronisation des commandes : {e}")
     
 # ------------------------- 
 # Lancer le bot 
